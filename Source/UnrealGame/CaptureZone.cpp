@@ -72,7 +72,7 @@ void ACaptureZone::Tick(float DeltaTime)
 
 		displayPercentage = percentage / 100;
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Float value: %f"), displayPercentage));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Float value: %f"), displayPercentage));
 
 		if (percentage >= 100.0f)
 		{
