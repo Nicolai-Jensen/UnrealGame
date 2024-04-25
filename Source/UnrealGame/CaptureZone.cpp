@@ -20,6 +20,7 @@ ACaptureZone::ACaptureZone()
 // Called when the game starts or when spawned
 void ACaptureZone::BeginPlay()
 {
+	moneyTaken = false;
 	Super::BeginPlay();
 
 	CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ACaptureZone::OnOverlapBegin);
@@ -30,11 +31,16 @@ void ACaptureZone::BeginPlay()
 void ACaptureZone::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	
 	capturing = true;
 
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::White, TEXT("Colliding! :)"));
+		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::White, TEXT("Inside zone"));
+		if (moneyTaken == true)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Blue, TEXT("Money already taken! GO!"));
+		}
 
 	}
 
@@ -47,7 +53,7 @@ void ACaptureZone::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::White, TEXT("Not Colliding :c"));
+		GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::White, TEXT("Outside zone"));
 
 	}
 
@@ -58,7 +64,7 @@ void ACaptureZone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (capturing == true)
+	if (capturing == true && moneyTaken == false)
 	{
 		timeSinceTick += DeltaTime;
 
@@ -75,6 +81,8 @@ void ACaptureZone::Tick(float DeltaTime)
 			timeSinceTick = 0;
 
 			GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Blue, TEXT("ALL MONEY COLLECTED!"));
+
+			moneyTaken = true;
 
 		}
 

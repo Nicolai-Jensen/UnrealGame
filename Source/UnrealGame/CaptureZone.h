@@ -42,6 +42,7 @@ protected:
 	float timeSinceTick;
 	float percentage;
 	bool capturing;
+	bool moneyTaken;
 
 public:	
 	// Called every frame
